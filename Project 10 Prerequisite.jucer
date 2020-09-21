@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="YYnOpC" name="Project 10 Test" projectType="audioplug" useAppConfig="0"
-              addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1">
-  <MAINGROUP id="nwZHXO" name="Project 10 Test">
+<JUCERPROJECT id="YYnOpC" name="Project 10 Prerequisite" projectType="audioplug"
+              useAppConfig="0" addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1"
+              pluginChannelConfigs="{0, 2}">
+  <MAINGROUP id="nwZHXO" name="Project 10 Prerequisite">
     <GROUP id="{95209685-0022-DE0A-787C-336000740A7C}" name="Source">
       <FILE id="wVnXZo" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
@@ -29,7 +30,6 @@
         <MODULEPATH id="juce_audio_utils" path="../JUCE/modules"/>
         <MODULEPATH id="juce_core" path="../JUCE/modules"/>
         <MODULEPATH id="juce_data_structures" path="../JUCE/modules"/>
-        <MODULEPATH id="juce_dsp" path="../JUCE/modules"/>
         <MODULEPATH id="juce_events" path="../JUCE/modules"/>
         <MODULEPATH id="juce_graphics" path="../JUCE/modules"/>
         <MODULEPATH id="juce_gui_basics" path="../JUCE/modules"/>
@@ -50,7 +50,6 @@
         <MODULEPATH id="juce_audio_utils" path="../JUCE/modules"/>
         <MODULEPATH id="juce_core" path="../JUCE/modules"/>
         <MODULEPATH id="juce_data_structures" path="../JUCE/modules"/>
-        <MODULEPATH id="juce_dsp" path="../JUCE/modules"/>
         <MODULEPATH id="juce_events" path="../JUCE/modules"/>
         <MODULEPATH id="juce_graphics" path="../JUCE/modules"/>
         <MODULEPATH id="juce_gui_basics" path="../JUCE/modules"/>
@@ -71,7 +70,6 @@
         <MODULEPATH id="juce_audio_utils" path="../JUCE/modules"/>
         <MODULEPATH id="juce_core" path="../JUCE/modules"/>
         <MODULEPATH id="juce_data_structures" path="../JUCE/modules"/>
-        <MODULEPATH id="juce_dsp" path="../JUCE/modules"/>
         <MODULEPATH id="juce_events" path="../JUCE/modules"/>
         <MODULEPATH id="juce_graphics" path="../JUCE/modules"/>
         <MODULEPATH id="juce_gui_basics" path="../JUCE/modules"/>
@@ -89,10 +87,12 @@
     <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
-    <MODULE id="juce_dsp" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
   </MODULES>
+  <LIVE_SETTINGS>
+    <OSX/>
+  </LIVE_SETTINGS>
 </JUCERPROJECT>

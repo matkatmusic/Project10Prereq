@@ -8,17 +8,51 @@
 
 #pragma once
 
+/*
+ Welcome to this Project 10 Prerequisite project!
+ 
+ The purpose of this project is to prove that you possess the
+ necessary command of the C++ language to complete PFM::C++ Project 10
+ without needing any help regarding the language.
+ 
+ Feel free to use the Standalone Build Target as your means of testing.
+ There is no need to run this inside your DAW as a VST but you
+ can if you want to and know how.
+
+ Instructions have also been provided in processBlock()
+ =================================================================
+ This project is purposely broken.
+ 
+ Your job is to
+    - clear the compiler errors
+    - make it produce a sine wave tone at 440hz @ -12dbFS.
+ 
+ Your challenge will be in writing a custom class
+ that will be used by the oscillator producing the sinewave.
+ 
+ the Oscillator you will be using has already been added as a
+ member variable at the end of the Project10PrereqAudioProcessor
+ 
+ I have provided you with a starting template below for this custom class.
+ */
+
 #include <JuceHeader.h>
 
+template<typename T>
+struct Data
+{
+private:
+    T data;
+};
 //==============================================================================
 /**
 */
-class Project10TestAudioProcessor  : public juce::AudioProcessor
+class Project10PrereqAudioProcessor  : public juce::AudioProcessor
 {
 public:
     //==============================================================================
-    Project10TestAudioProcessor();
-    ~Project10TestAudioProcessor() override;
+    Project10PrereqAudioProcessor();
+    ~Project10PrereqAudioProcessor() override;
 
     //==============================================================================
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;
@@ -54,6 +88,7 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
 
 private:
+    juce::dsp::Oscillator<Data<float>> osc;
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Project10TestAudioProcessor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Project10PrereqAudioProcessor)
 };

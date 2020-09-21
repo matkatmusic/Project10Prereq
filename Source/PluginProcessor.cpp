@@ -10,7 +10,7 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-Project10TestAudioProcessor::Project10TestAudioProcessor()
+Project10PrereqAudioProcessor::Project10PrereqAudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
      : AudioProcessor (BusesProperties()
                      #if ! JucePlugin_IsMidiEffect
@@ -24,17 +24,17 @@ Project10TestAudioProcessor::Project10TestAudioProcessor()
 {
 }
 
-Project10TestAudioProcessor::~Project10TestAudioProcessor()
+Project10PrereqAudioProcessor::~Project10PrereqAudioProcessor()
 {
 }
 
 //==============================================================================
-const juce::String Project10TestAudioProcessor::getName() const
+const juce::String Project10PrereqAudioProcessor::getName() const
 {
     return JucePlugin_Name;
 }
 
-bool Project10TestAudioProcessor::acceptsMidi() const
+bool Project10PrereqAudioProcessor::acceptsMidi() const
 {
    #if JucePlugin_WantsMidiInput
     return true;
@@ -43,7 +43,7 @@ bool Project10TestAudioProcessor::acceptsMidi() const
    #endif
 }
 
-bool Project10TestAudioProcessor::producesMidi() const
+bool Project10PrereqAudioProcessor::producesMidi() const
 {
    #if JucePlugin_ProducesMidiOutput
     return true;
@@ -52,7 +52,7 @@ bool Project10TestAudioProcessor::producesMidi() const
    #endif
 }
 
-bool Project10TestAudioProcessor::isMidiEffect() const
+bool Project10PrereqAudioProcessor::isMidiEffect() const
 {
    #if JucePlugin_IsMidiEffect
     return true;
@@ -61,50 +61,50 @@ bool Project10TestAudioProcessor::isMidiEffect() const
    #endif
 }
 
-double Project10TestAudioProcessor::getTailLengthSeconds() const
+double Project10PrereqAudioProcessor::getTailLengthSeconds() const
 {
     return 0.0;
 }
 
-int Project10TestAudioProcessor::getNumPrograms()
+int Project10PrereqAudioProcessor::getNumPrograms()
 {
     return 1;   // NB: some hosts don't cope very well if you tell them there are 0 programs,
                 // so this should be at least 1, even if you're not really implementing programs.
 }
 
-int Project10TestAudioProcessor::getCurrentProgram()
+int Project10PrereqAudioProcessor::getCurrentProgram()
 {
     return 0;
 }
 
-void Project10TestAudioProcessor::setCurrentProgram (int index)
+void Project10PrereqAudioProcessor::setCurrentProgram (int index)
 {
 }
 
-const juce::String Project10TestAudioProcessor::getProgramName (int index)
+const juce::String Project10PrereqAudioProcessor::getProgramName (int index)
 {
     return {};
 }
 
-void Project10TestAudioProcessor::changeProgramName (int index, const juce::String& newName)
+void Project10PrereqAudioProcessor::changeProgramName (int index, const juce::String& newName)
 {
 }
 
 //==============================================================================
-void Project10TestAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
+void Project10PrereqAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
 }
 
-void Project10TestAudioProcessor::releaseResources()
+void Project10PrereqAudioProcessor::releaseResources()
 {
     // When playback stops, you can use this as an opportunity to free up any
     // spare memory, etc.
 }
 
 #ifndef JucePlugin_PreferredChannelConfigurations
-bool Project10TestAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const
+bool Project10PrereqAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const
 {
   #if JucePlugin_IsMidiEffect
     juce::ignoreUnused (layouts);
@@ -127,55 +127,38 @@ bool Project10TestAudioProcessor::isBusesLayoutSupported (const BusesLayout& lay
 }
 #endif
 
-void Project10TestAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
+void Project10PrereqAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
     juce::ScopedNoDenormals noDenormals;
-    auto totalNumInputChannels  = getTotalNumInputChannels();
-    auto totalNumOutputChannels = getTotalNumOutputChannels();
-
-    // In case we have more outputs than inputs, this code clears any output
-    // channels that didn't contain input data, (because these aren't
-    // guaranteed to be empty - they may contain garbage).
-    // This is here to avoid people getting screaming feedback
-    // when they first compile a plugin, but obviously you don't need to keep
-    // this code if your algorithm always overwrites all the output channels.
-    for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
-        buffer.clear (i, 0, buffer.getNumSamples());
-
-    // This is the place where you'd normally do the guts of your plugin's
-    // audio processing...
-    // Make sure to reset the state if your inner loop is processing
-    // the samples and the outer loop is handling the channels.
-    // Alternatively, you can process the samples with the channels
-    // interleaved by keeping the same state.
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
-    {
-        auto* channelData = buffer.getWritePointer (channel);
-
-        // ..do something to the data...
-    }
+    
+    /*
+     Your job is to:
+        - clear the incoming buffer
+        - fill all channels in the buffer with the sinewave generated by the osc instance.
+        - your sinewave should have a gain level of -12dbFS.
+     */
 }
 
 //==============================================================================
-bool Project10TestAudioProcessor::hasEditor() const
+bool Project10PrereqAudioProcessor::hasEditor() const
 {
     return true; // (change this to false if you choose to not supply an editor)
 }
 
-juce::AudioProcessorEditor* Project10TestAudioProcessor::createEditor()
+juce::AudioProcessorEditor* Project10PrereqAudioProcessor::createEditor()
 {
-    return new Project10TestAudioProcessorEditor (*this);
+    return new Project10PrereqAudioProcessorEditor (*this);
 }
 
 //==============================================================================
-void Project10TestAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
+void Project10PrereqAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
 {
     // You should use this method to store your parameters in the memory block.
     // You could do that either as raw data, or use the XML or ValueTree classes
     // as intermediaries to make it easy to save and load complex data.
 }
 
-void Project10TestAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
+void Project10PrereqAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
@@ -185,5 +168,5 @@ void Project10TestAudioProcessor::setStateInformation (const void* data, int siz
 // This creates new instances of the plugin..
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
-    return new Project10TestAudioProcessor();
+    return new Project10PrereqAudioProcessor();
 }
