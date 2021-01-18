@@ -36,6 +36,8 @@
  I have provided you with a starting template below for this custom class.
  */
 
+#include <JuceHeader.h>
+
 template<typename T>
 struct Data
 {
@@ -43,8 +45,6 @@ struct Data
 private:
     T data;
 };
-
-#include <JuceHeader.h>
 
 //==============================================================================
 /**
