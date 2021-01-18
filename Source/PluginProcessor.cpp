@@ -93,8 +93,15 @@ void Project10PrereqAudioProcessor::changeProgramName (int index, const juce::St
 //==============================================================================
 void Project10PrereqAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    // Use this method as the place to do any pre-playback
-    // initialisation that you need..
+    juce::dsp::ProcessSpec spec { sampleRate, static_cast<juce::uint32> (samplesPerBlock) };
+    
+    osc.prepare(spec);
+    gain.prepare (spec);
+    
+    osc.setFrequency(440.0);
+    osc.initialise ([] (float x) { return std::sin (x); });
+    
+    gain.setGainDecibels (-12.0f);
 }
 
 void Project10PrereqAudioProcessor::releaseResources()
@@ -130,6 +137,19 @@ bool Project10PrereqAudioProcessor::isBusesLayoutSupported (const BusesLayout& l
 void Project10PrereqAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
     juce::ScopedNoDenormals noDenormals;
+    
+    auto totalNumInputChannels  = getTotalNumInputChannels();
+    auto totalNumOutputChannels = getTotalNumOutputChannels();
+    
+    for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
+        buffer.clear (i, 0, buffer.getNumSamples());
+
+    
+    
+    juce::dsp::AudioBlock<float> block (buffer);
+    juce::dsp::ProcessContextReplacing<float> context (block);
+    osc.process (context);
+    gain.process(context);
     
     /*
      Your job is to:

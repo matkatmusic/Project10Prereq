@@ -36,14 +36,16 @@
  I have provided you with a starting template below for this custom class.
  */
 
-#include <JuceHeader.h>
-
 template<typename T>
 struct Data
 {
+    using value_type = T;
 private:
     T data;
 };
+
+#include <JuceHeader.h>
+
 //==============================================================================
 /**
 */
@@ -89,6 +91,7 @@ public:
 
 private:
     juce::dsp::Oscillator<Data<float>> osc;
+    juce::dsp::Gain<float> gain;
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Project10PrereqAudioProcessor)
 };
