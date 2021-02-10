@@ -93,8 +93,21 @@ void Project10PrereqAudioProcessor::changeProgramName (int index, const juce::St
 //==============================================================================
 void Project10PrereqAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
+    DBG(sampleRate);
+    osc.reset();
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
+    juce::dsp::ProcessSpec spec;
+    spec.sampleRate = sampleRate;
+    spec.numChannels = getTotalNumInputChannels();
+    spec.maximumBlockSize = samplesPerBlock;
+
+    osc.prepare(spec);
+
+    osc.initialise(
+        [](float x) {
+            return juce::Decibels::decibelsToGain<float>(std::sin(x),-12); 
+    }, 128);
 }
 
 void Project10PrereqAudioProcessor::releaseResources()
@@ -130,7 +143,7 @@ bool Project10PrereqAudioProcessor::isBusesLayoutSupported (const BusesLayout& l
 void Project10PrereqAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
     juce::ScopedNoDenormals noDenormals;
-    
+
     /*
      Your job is to:
         - clear the incoming buffer
@@ -139,6 +152,22 @@ void Project10PrereqAudioProcessor::processBlock (juce::AudioBuffer<float>& buff
      use the Oscillator<>::processSample(0) member function to fill your channels
      do not use the ProcessContextReplacing<> approach to complete this test
      */
+
+    buffer.clear();
+    osc.setFrequency(440);
+
+    unsigned int channels = buffer.getNumChannels();
+    unsigned int samples = buffer.getNumSamples();
+
+    for (unsigned int channel = 0; channel < channels; ++channel) {
+
+         auto* writePointer = buffer.getWritePointer(channel);
+
+         for (unsigned int sample = 0; sample < samples; ++sample)
+         {
+             writePointer[sample] = osc.processSample(buffer.getSample(channel, sample));
+         }
+    }
 }
 
 //==============================================================================
